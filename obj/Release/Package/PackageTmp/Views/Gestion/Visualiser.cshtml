@@ -1,0 +1,173 @@
+﻿@model App.Models.NR
+
+@{
+    ViewBag.Title = "Visualiser";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title> Traitement</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.35/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.14/dijit/themes/nihilo/nihilo.css">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.14/esri/css/esri.css">
+    <link href="~/Map/css.css" rel="stylesheet">
+
+    <script src="https://js.arcgis.com/3.14/"></script>
+
+    <script>
+        var dojoConfig = {
+            async: true
+        };
+    </script>
+    <script>var dojoConfig = { parseOnLoad: true };</script>
+    <script>
+        var mapMain;
+        var widgetEditor;
+        require([
+            "dojo/string",
+            "dijit/registry",
+            "esri/map",
+            "esri/tasks/query",
+            "esri/geometry/Extent",
+            "esri/layers/ArcGISDynamicMapServiceLayer",
+            "esri/layers/FeatureLayer",
+            "esri/dijit/BasemapToggle",
+            "esri/dijit/BasemapGallery",
+            "esri/dijit/Legend",
+            "dojo/ready",
+            "dojo/parser",
+            "dojo/on",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dijit/form/Button",
+            "dojo/_base/array",
+            "esri/config",
+            "esri/dijit/editing/Editor",
+            "esri/tasks/GeometryService",
+            "esri/dijit/editing/TemplatePicker",
+            "esri/dijit/Popup", "esri/dijit/PopupTemplate",
+            "esri/symbols/SimpleFillSymbol", "esri/Color",
+            "dojo/dom-class", "dojo/dom-construct",
+            "dojox/charting/Chart", "dojox/charting/themes/Dollar",
+            "dojo/domReady!",
+            "esri/InfoTemplate",
+            "esri/tasks/Geoprocessor",
+            "dojo/dom"],
+            function (string,registry,Map, Query, Extent, ArcGISDynamicMapServiceLayer, FeatureLayer, BasemapToggle, BasemapGallery, Legend,
+                ready, parser, on,
+                BorderContainer, ContentPane, Button, array, config, Editor, GeometryService, TemplatePicker, Popup, PopupTemplate, SimpleFillSymbol, Color,
+                domClass, domConstruct, Chart, theme, InfoTemplate, Geoprocessor,dom) {
+                ready(function () {
+                    // Parse DOM nodes decorated with the data-dojo-type attribute
+                    parser.parse();
+                    //
+                    config.defaults.io.proxyUrl = "http://localhost/proxy/proxy.ashx";
+
+                    // Create the map
+                    mapMain = new Map("divMap", {
+                        basemap: "satellite",
+                        center: [-7.62, 33.59],
+                        zoom: 11
+                    });
+                    //pour retourner la valeur l'ID
+                    var id;
+                    //ajout du feature layer
+                    var F1 = new FeatureLayer("https://localhost:6443/arcgis/rest/services/Projet_ASP/NRs/FeatureServer/0", {
+                        mode: FeatureLayer.MODE_ONDEMAND,
+                        outFields: ["Reference_", "Zonage", "NR_Id", "Etat"]
+                    });
+                    mapMain.addLayers([F1]);
+                    //Que faire au chargement des données
+
+                    //2/ ajout de l'outil d'edition
+                    mapMain.on("layers-add-result", initEditor);
+                    function initEditor(results) {
+                        // Map the event results into an array of layerInfo objects
+                        var layerInfosWildfire = array.map(results.layers, function (result) {
+                            return {
+                                featureLayer: result.layer
+                            };
+                        });
+
+                        var editorSettings = {
+                            map: mapMain,
+                            geometryService: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+                            layerInfos: layerInfosWildfire,
+                            toolbarVisible: false,
+                            createOptions: { polygonDrawTools: [Editor.CREATE_TOOL_FREEHAND_POLYGON, Editor.CREATE_TOOL_RECTANGLE, Editor.CREATE_TOOL_TRIANGLE, Editor.CREATE_TOOL_CIRCLE] },
+                            toolbarOptions: { reshapeVisible: true },
+                            enableUndoRedo: true
+                        };
+                        var editorParams = {
+                            settings: editorSettings
+                        };
+                        var editorWidget = new Editor(editorParams, 'divLeft');
+                        editorWidget.startup();
+                    };
+                    //1/ zoomer sur l'entité selectionnée
+                    mapMain.on("layers-add-result", function () {
+                    var query = new Query();
+                    query.objectIds = [ @Html.DisplayFor(model => model.OBJECTID)];
+                        F1.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (features) {
+                            feature = features[0];
+                            //id = feature.OBJECTID;
+                    var stateExtent = features[0].geometry.getExtent().expand(3.0);
+                    mapMain.setExtent(stateExtent);
+                    });
+                    });
+                    /*
+                    //3/Afficher le zonage de l'entité selectionnée
+                    var GP=new Geoprocessor("https://localhost:6443/arcgis/rest/services/Projet_ASP/RechercheZonage/GPServer/GP");
+                    mapMain.on("layers-add-result", executer);
+                    //la fonction d'execution:
+                    function executer() {
+
+                        GP.outSpatialReference = mapMain.spatialReference;
+                        GPString  = id;
+                        var params = { "String": GPString };
+                        GP.execute(params, displayResults);
+
+                    }
+
+                    function displayResults(Value,messages) {
+
+                        var zonage = Value;
+                        var c = string.substitute("le zonage est: ${zon}", { zon: zonage });
+
+
+                        registry.byId("dialog1").setContent(c);
+                        registry.byId("dialog1").show();
+                    }*/
+
+
+
+                });
+            });
+    </script>
+</head>
+<body class="claro">
+
+
+    <div id="carteFrame3">
+        <div id="divMap"></div>
+        <div id="divLeft"></div>
+
+
+
+
+    </div>
+    
+
+
+
+
+
+</body>
+
+</html>
+

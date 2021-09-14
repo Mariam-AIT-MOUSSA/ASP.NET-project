@@ -1,0 +1,78 @@
+﻿@model IEnumerable<App.Models.NR>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Toutes les demandes des notes de renseignement</h2>
+<!--Recherche par etat du titre:-->
+
+<form asp-controller="NRs" asp-action="Index" method="get">
+    <p>
+
+        <strong style="color:darkred">Etat:  </strong>  <input type="text" name="etat" />
+        <strong style="color:darkred">L'ID de la note: </strong>  <input type="text" name="IdNR" />
+        <input type="submit" value="Rechercher" class="btn btn-success" />
+
+    </p>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Reference_)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Societe)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Zonage)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.NR_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Etat)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reference_)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Societe)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Zonage)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.NR_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Etat)
+        </td>
+        
+        <td>
+
+            @Html.ActionLink("Details", "Details", new { id = item.OBJECTID }) |
+            @Html.ActionLink("Visualiser", "Visualiser", new { id = item.OBJECTID })
+
+        </td>
+    </tr>
+}
+
+</table>

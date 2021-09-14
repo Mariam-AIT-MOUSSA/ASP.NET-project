@@ -1,0 +1,80 @@
+﻿@model App.Models.NR
+
+@{
+    ViewBag.Title = "Consulte";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Détails sur lesite</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/dijit/themes/nihilo/nihilo.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+    <script src="https://js.arcgis.com/3.20/"></script>
+    <link href="~/Map/css.css" rel="stylesheet" />
+    <script>
+        var mapMain;
+        
+        require([
+            "esri/map",
+            "esri/tasks/query",
+            "esri/geometry/Extent",
+            "esri/layers/ArcGISDynamicMapServiceLayer",
+            "esri/layers/FeatureLayer",
+            "esri/dijit/BasemapToggle",
+            "esri/dijit/BasemapGallery",
+            "esri/dijit/Legend",
+            "dojo/ready",
+            "dojo/parser",
+            "dojo/on",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dijit/form/Button"
+        ],
+            function (Map, Query, Extent, ArcGISDynamicMapServiceLayer, FeatureLayer, BasemapToggle, BasemapGallery, Legend,
+                ready, parser, on,
+                BorderContainer, ContentPane, Button) {
+                ready(function () {
+                    // Parse DOM nodes decorated with the data-dojo-type attribute
+                    parser.parse();
+                    // Create the map
+                    mapMain = new Map("carteFrame2", {
+                        basemap: "satellite",
+                        center: [-7.62, 33.59],
+                        zoom: 11
+                    });
+                    var CoucheNR = new FeatureLayer("https://localhost:6443/arcgis/rest/services/Projet_ASP/NRs/FeatureServer/0");
+                    mapMain.addLayers([CoucheNR]);
+                   
+                    mapMain.on("layers-add-result", function () {
+                            var query = new Query();
+                            query.objectIds = [ @Html.DisplayFor(model => model.OBJECTID)];
+                        
+                            CoucheNR.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (features) {
+                            //zoom to the selected feature
+                                var stateExtent = features[0].geometry.getExtent().expand(3.0);
+                            mapMain.setExtent(stateExtent);
+                            });
+                            });
+                });
+            });
+    </script>
+</head>
+<body>
+    <h2>Consultation de demande</h2>
+    <form asp-controller="NRs" asp-action="Consulte" method="get">
+        <p>
+
+            <strong style="color:darkred">N° de la parcelle:  </strong>  <input type="text" name="Ref" />
+            
+            <input type="submit" value="Rechercher" class="btn btn-success" />
+
+        </p>
+    </form>
+    <div id="carteFrame2"></div>
+    
+    <div>
+        <p>Zonage de la parcelle: @Html.DisplayFor(model => model.Zonage) </p>
+        <p>Etat de la demande: @Html.DisplayFor(model => model.Etat) </p>
+
+    </div>
+</body>

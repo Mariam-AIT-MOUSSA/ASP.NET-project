@@ -1,0 +1,61 @@
+﻿@model App.Models.NR
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Détails sur lesite</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.20/dijit/themes/nihilo/nihilo.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.20/esri/css/esri.css">
+    <script src="http://js.arcgis.com/3.20/"></script>
+    <link rel="stylesheet" href="~/Map/Edit.css" />
+    <script src="https://js.arcgis.com/3.14/"></script>
+    <script src="~/Map/Edit.js"></script>  
+</head>
+<body class="nihilo">
+    <div id="bcMain" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'sidebar'">
+        <div id="cpTop" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+            <div id="divTop"></div>
+        </div>
+        <div id="cpLeft" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
+            <div id="divLeft"></div>
+        </div>
+        <div id="cpCenter" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+            <div id="divMap"></div>
+        </div>
+    </div>
+    <div>
+        <h4>SITE_ACCUEIL</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.OBJECTID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OBJECTID)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Reference_)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Reference_)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.NR_Id)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NR_Id)
+            </dd>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Retour", "Index")
+    </p>
+</body>
+
+</html>

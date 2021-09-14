@@ -1,0 +1,61 @@
+﻿@model IEnumerable<App.Models.NR>
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+
+<iframe id="carteFrame" src="@Url.Action("Carte")"></iframe>
+
+
+
+
+<div class="fh5co-narrow-content">
+    <h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft">Nos services</h2>
+    <div class="row row-bottom-padded-md">
+        <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
+            <div class="blog-entry">
+                <a href="#" class="blog-img"><img src="~/marble/images/random.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+                <div class="desc">
+                    <h3><a href="#">Consulter </a></h3>
+                    <p>Indiquer votre numéro de parcelle et consulter l'etat de demande==></p>
+                    <a href="#" class="lead">@Html.ActionLink("Consulter maintenant", "Consulte", "NRs")<i class="icon-arrow-right3"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
+            <div class="blog-entry">
+                <a href="#" class="blog-img"><img src="~/marble/images/dessin.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+                <div class="desc">
+                    <h3><a href="#">Demander </a></h3>
+                    <p>Dessiner votre parcelle et renseigner les champs demandés==></p>
+                    <a href="#" class="lead">@Html.ActionLink("Demander maintenant", "Demande", "NRs") <i class="icon-arrow-right3"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
+            <div class="blog-entry">
+                <a href="#" class="blog-img"><img src="~/marble/images/img-3.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+                <div class="desc">
+                    <h3><a href="#">Service X</a></h3>
+                    <span><small>by Admin </small> / <small> Web Design </small> / <small> <i class="icon-comment"></i> 14</small></span>
+                    <p>XXXXXXXXXXXXXXXXX</p>
+                    <a href="#" class="lead">Read More <i class="icon-arrow-right3"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
+            <div class="blog-entry">
+                <a href="#" class="blog-img"><img src="~/marble/images/img-4.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+                <div class="desc">
+                    <h3><a href="#">Service Y</a></h3>
+                    <span><small>by Admin </small> / <small> Web Design </small> / <small> <i class="icon-comment"></i> 14</small></span>
+                    <p>XXXXXXXX</p>           
+                    <a href="#" class="lead">Read More <i class="icon-arrow-right3"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
