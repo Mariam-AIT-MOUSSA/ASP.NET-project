@@ -3,7 +3,7 @@
 C'est une application d egestion de snotes de renseignement de la ville de Casablanca/Maroc,
 realisee en utilisant les technologies suivantes:
 
-# ASP.NET frawork
+# ASP.NET framework
 # MVC design pattern
 # API ArcGIS for javascript
 # C# pour le developpement backend
