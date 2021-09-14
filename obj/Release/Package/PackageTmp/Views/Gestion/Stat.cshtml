@@ -1,0 +1,14 @@
+﻿@model IEnumerable<App.Models.NR>
+
+@{
+    ViewBag.Title = "Stat";
+
+}
+
+
+<iframe id="carteFrame" src="@Url.Action("Carte","NRs")"></iframe>
+
+
+
+@Html.ActionLink("Afficher les demandes", "Index", "Gestion")
+
