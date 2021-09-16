@@ -1,6 +1,6 @@
 # ASP.NET-project
 
-C'est une application d egestion de snotes de renseignement de la ville de Casablanca/Maroc,
+C'est une application de gestion des notes de renseignement de la ville de Casablanca/Maroc,
 realisee en utilisant les technologies suivantes:
 
 - ASP.NET framework
